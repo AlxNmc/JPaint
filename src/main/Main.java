@@ -22,13 +22,13 @@ public class Main {
         controller.setup();
         MouseHandler mouseHandler = new MouseHandler(paintCanvas);
 
-        // For example purposes only; remove all lines below from your final project.
         paintCanvas.addMouseListener(mouseHandler);
-        try {
-            Thread.sleep(500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+
+//        try {
+//            Thread.sleep(500);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
 
 //        // Filled in rectangle
 //        Graphics2D graphics2d = paintCanvas.getGraphics2D();
