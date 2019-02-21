@@ -1,22 +1,22 @@
 package main;
 
-public class Rectangle implements IShape{
+import model.interfaces.IApplicationState;
 
-    private int startX;
-    private int startY;
-    private int width;
-    private int height;
+import java.awt.*;
 
-    Rectangle(int pressX, int pressY, int releaseX, int releaseY){
-        startX = Integer.min(pressX, releaseX);
-        startY = Integer.min(pressY, releaseY);
-        width = Math.abs(releaseX-pressX);
-        height = Math.abs(releaseY-pressY);
+public class Rectangle extends Shape{
+
+    Rectangle(int pressX, int pressY, int releaseX, int releaseY, IApplicationState applicationState){
+        super(pressX, pressY, releaseX, releaseY, applicationState);
     }
-
-    public int getX(){return startX;}
-    public int getY(){return startY;}
-    public int getWidth(){return width;}
-    public int getHeight(){return height;}
+    @Override
+    public void drawOutline(Graphics2D graphics2D){
+        graphics2D.setStroke(new BasicStroke(5));
+        graphics2D.drawRect(this.getX(), this.getY(), this.getWidth(), this.getHeight());
+    }
+    @Override
+    public void drawFilled(Graphics2D graphics2D) {
+        graphics2D.fillRect(this.getX(), this.getY(), this.getWidth(), this.getHeight());
+    }
 
 }
