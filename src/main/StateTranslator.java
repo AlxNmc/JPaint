@@ -1,7 +1,6 @@
 package main;
 
 import model.ShapeColor;
-
 import java.awt.*;
 import java.util.EnumMap;
 
@@ -10,6 +9,7 @@ public class StateTranslator {
     EnumMap<ShapeColor, Color> colorMap;
 
     StateTranslator(){
+        //creates an EnumMap matching ShapeColors to Java.awt Colors
         colorMap = new EnumMap<>(ShapeColor.class);
         colorMap.put(ShapeColor.BLACK, Color.BLACK);
         colorMap.put(ShapeColor.BLUE, Color.BLUE);
@@ -26,6 +26,7 @@ public class StateTranslator {
         colorMap.put(ShapeColor.YELLOW, Color.YELLOW);
     }
 
+    //returns matching Java.awt Color
     public Color getAWTColor(ShapeColor shapeColor){
         return colorMap.get(shapeColor);
     }

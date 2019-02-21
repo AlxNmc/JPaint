@@ -7,10 +7,12 @@ import view.interfaces.PaintCanvasBase;
 public class ShapeFactory implements  IShapeFactory {
     PaintCanvasBase canvas;
     IApplicationState state;
+    IClipboard clipboard;
 
-    ShapeFactory(PaintCanvasBase paintCanvasBase, IApplicationState applicationState){
+    ShapeFactory(PaintCanvasBase paintCanvasBase, IApplicationState applicationState, Clipboard clipboard){
         canvas = paintCanvasBase;
         state = applicationState;
+        this.clipboard = clipboard;
     }
 
     public IShape createShape(int pressX, int pressY, int releaseX, int releaseY){
@@ -18,21 +20,17 @@ public class ShapeFactory implements  IShapeFactory {
         ShapeType type = state.getActiveShapeType();
         switch (type){
             case RECTANGLE:
-                Rectangle rectangle = new Rectangle(pressX, pressY, releaseX, releaseY, state);
-                rectangle.draw(canvas.getGraphics2D());
-                shape = rectangle;
+                shape = new Rectangle(pressX, pressY, releaseX, releaseY, state);
                 break;
             case ELLIPSE:
-                Ellipse ellipse = new Ellipse(pressX, pressY, releaseX, releaseY, state);
-                ellipse.draw(canvas.getGraphics2D());
-                shape = ellipse;
+                shape = new Ellipse(pressX, pressY, releaseX, releaseY, state);
                 break;
             case TRIANGLE:
-                Triangle triangle = new Triangle(pressX, pressY, releaseX, releaseY, state);
-                triangle.draw(canvas.getGraphics2D());
-                shape = triangle;
+                shape = new Triangle(pressX, pressY, releaseX, releaseY, state);
                 break;
         }
+        shape.draw(canvas.getGraphics2D());
+        clipboard.addShape(shape);
         return shape;
     }
 }

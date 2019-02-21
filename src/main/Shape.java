@@ -21,7 +21,8 @@ public class Shape implements IShape {
         startY = Integer.min(pressY, releaseY);
         width = Math.abs(releaseX-pressX);
         height = Math.abs(releaseY-pressY);
-        setStateVariables(state);
+        if(state!=null) //allows for creation of a "bounding box only" shape for selection box
+            setStateVariables(state);
     }
 
     private void setStateVariables(IApplicationState state){
@@ -41,6 +42,7 @@ public class Shape implements IShape {
     public Color getPrimaryColor() {return primaryColor;}
     public Color getSecondaryColor() { return secondaryColor; }
 
+    //draws the shape to the canvas based on the appropriate shading type
     public void draw(Graphics2D graphics2D) {
         ShapeShadingType shadingType = getShadingType();
         switch (shadingType){
@@ -59,11 +61,10 @@ public class Shape implements IShape {
                 drawOutline(graphics2D);
         }
     }
-    public void drawOutline(Graphics2D graphics2D){}
-    public void drawFilled(Graphics2D graphics2D) {}
-    public void move(int newX, int newY, Graphics2D graphics2D){
-        startX = newX;
-        startY = newY;
-        draw(graphics2D);
+    public void drawOutline(Graphics2D graphics2D){} //meant to be overloaded by subclasses
+    public void drawFilled(Graphics2D graphics2D) {} //meant to be overloaded by subclasses
+    public void move(int xOffset, int yOffset){
+        startX = getX() + xOffset;
+        startY = getY() + yOffset;
     }
 }

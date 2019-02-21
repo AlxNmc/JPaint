@@ -6,8 +6,8 @@ import java.awt.*;
 
 public class Triangle extends Shape{
 
-    private int[] xpoints;
-    private int[] ypoints;
+    private int[] xpoints; //x coordinates of all vertices
+    private int[] ypoints; //y coordinates of all vertices
 
     Triangle(int pressX, int pressY, int releaseX, int releaseY, IApplicationState applicationState){
         super(pressX, pressY, releaseX, releaseY, applicationState);
@@ -33,5 +33,13 @@ public class Triangle extends Shape{
     @Override
     public void drawFilled(Graphics2D graphics2D) {
         graphics2D.fillPolygon(xpoints, ypoints, 3);
+    }
+    @Override
+    //Needed for the special point-array method of shape creation
+    public void move(int xOffset, int yOffset) {
+        for (int i = 0; i<xpoints.length; i++){
+            xpoints[i] += xOffset;
+            ypoints[i] += yOffset;
+        }
     }
 }

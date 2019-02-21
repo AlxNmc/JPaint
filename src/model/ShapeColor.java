@@ -1,8 +1,5 @@
 package model;
 
-import java.awt.*;
-import java.util.EnumMap;
-
 public enum ShapeColor {
     BLACK,
     BLUE,

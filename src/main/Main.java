@@ -19,8 +19,9 @@ public class Main {
         IJPaintController controller = new JPaintController(uiModule, appState);
         controller.setup();
 
-        ShapeFactory shapeFactory = new ShapeFactory(paintCanvas, appState);
-        MouseHandler mouseHandler = new MouseHandler(shapeFactory);
+        Clipboard clipboard = new Clipboard(appState, paintCanvas);
+        ShapeFactory shapeFactory = new ShapeFactory(paintCanvas, appState, clipboard);
+        MouseHandler mouseHandler = new MouseHandler(shapeFactory, appState, clipboard);
         paintCanvas.addMouseListener(mouseHandler);
     }
 }
