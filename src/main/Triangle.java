@@ -1,7 +1,5 @@
 package main;
 
-import model.interfaces.IApplicationState;
-
 import java.awt.*;
 
 public class Triangle extends Shape{
@@ -9,8 +7,8 @@ public class Triangle extends Shape{
     private int[] xpoints; //x coordinates of all vertices
     private int[] ypoints; //y coordinates of all vertices
 
-    Triangle(int pressX, int pressY, int releaseX, int releaseY, IApplicationState applicationState){
-        super(pressX, pressY, releaseX, releaseY, applicationState);
+    Triangle(int pressX, int pressY, int releaseX, int releaseY){
+        super(pressX, pressY, releaseX, releaseY);
         xpoints = new int[3];
         ypoints = new int[3];
         setPoints();
@@ -27,7 +25,6 @@ public class Triangle extends Shape{
 
     @Override
     public void drawOutline(Graphics2D graphics2D){
-        graphics2D.setStroke(new BasicStroke(5));
         graphics2D.drawPolygon(xpoints, ypoints, 3);
     }
     @Override
@@ -41,5 +38,12 @@ public class Triangle extends Shape{
             xpoints[i] += xOffset;
             ypoints[i] += yOffset;
         }
+    }
+    @Override
+    public IShape clone(){
+        IShape newTriangle = new Triangle(getX(), getY(), getX()+getWidth(), getY()+getHeight());
+        newTriangle.setColors(getPrimaryColor(), getSecondaryColor());
+        newTriangle.setShadingType(getShadingType());
+        return newTriangle;
     }
 }

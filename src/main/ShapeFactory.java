@@ -2,35 +2,37 @@ package main;
 
 import model.ShapeType;
 import model.interfaces.IApplicationState;
-import view.interfaces.PaintCanvasBase;
 
 public class ShapeFactory implements  IShapeFactory {
-    PaintCanvasBase canvas;
     IApplicationState state;
-    IClipboard clipboard;
+    IAbstractCanvas abstractCanvas;
 
-    ShapeFactory(PaintCanvasBase paintCanvasBase, IApplicationState applicationState, Clipboard clipboard){
-        canvas = paintCanvasBase;
+    ShapeFactory(IApplicationState applicationState, AbstractCanvas abstractCanvas){
         state = applicationState;
-        this.clipboard = clipboard;
+        this.abstractCanvas = abstractCanvas;
     }
 
     public IShape createShape(int pressX, int pressY, int releaseX, int releaseY){
         IShape shape = null;
         ShapeType type = state.getActiveShapeType();
+        StateTranslator translator = new StateTranslator();
         switch (type){
             case RECTANGLE:
-                shape = new Rectangle(pressX, pressY, releaseX, releaseY, state);
+                shape = new Rectangle(pressX, pressY, releaseX, releaseY);
                 break;
             case ELLIPSE:
-                shape = new Ellipse(pressX, pressY, releaseX, releaseY, state);
+                shape = new Ellipse(pressX, pressY, releaseX, releaseY);
                 break;
             case TRIANGLE:
-                shape = new Triangle(pressX, pressY, releaseX, releaseY, state);
+                shape = new Triangle(pressX, pressY, releaseX, releaseY);
                 break;
         }
-        shape.draw(canvas.getGraphics2D());
-        clipboard.addShape(shape);
+
+        shape.setColors(translator.getAWTColor(state.getActivePrimaryColor())
+                        , translator.getAWTColor(state.getActiveSecondaryColor()));
+        shape.setShadingType(state.getActiveShapeShadingType());
+
+        abstractCanvas.addShape(shape);
         return shape;
     }
 }

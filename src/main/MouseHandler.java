@@ -10,14 +10,14 @@ public class MouseHandler extends MouseAdapter {
 
     private IShapeFactory shapeFactory;
     IApplicationState state;
-    IClipboard clipboard;
+    IAbstractCanvas abstractCanvas;
     private int lastPressX;
     private int lastPressY;
 
-    public MouseHandler(ShapeFactory shapeFactory, IApplicationState state, Clipboard clipboard){
+    public MouseHandler(ShapeFactory shapeFactory, IApplicationState state, AbstractCanvas abstractCanvas){
         this.shapeFactory = shapeFactory;
         this.state = state;
-        this.clipboard = clipboard;
+        this.abstractCanvas = abstractCanvas;
         lastPressX = 0;
         lastPressY = 0;
     }
@@ -38,10 +38,10 @@ public class MouseHandler extends MouseAdapter {
                 shapeFactory.createShape(pressX, pressY, releaseX, releaseY);
                 break;
             case SELECT:
-                clipboard.selectShapes(pressX, pressY, releaseX, releaseY);
+                abstractCanvas.selectShapes(pressX, pressY, releaseX, releaseY);
                 break;
             case MOVE:
-                clipboard.moveShapes(pressX, pressY, releaseX, releaseY);
+                abstractCanvas.moveShapes(pressX, pressY, releaseX, releaseY);
                 break;
         }
     }
