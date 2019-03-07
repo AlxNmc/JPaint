@@ -1,7 +1,6 @@
 package main;
 
 import model.ShapeShadingType;
-import model.ShapeColor;
 
 import java.awt.*;
 
@@ -72,6 +71,11 @@ public abstract class Shape implements IShape {
     public void move(int xOffset, int yOffset){
         startX = getX() + xOffset;
         startY = getY() + yOffset;
+    }
+
+    public void changeDimensions(int width, int height){
+        this.width = width;
+        this.height = height;
     }
 
     public IShape clone(){ return null; }

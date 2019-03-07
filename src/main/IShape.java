@@ -1,6 +1,5 @@
 package main;
 
-import model.ShapeColor;
 import model.ShapeShadingType;
 
 import java.awt.*;
@@ -12,6 +11,7 @@ public interface IShape {
     int getY();
     int getWidth();
     int getHeight();
+    void changeDimensions(int width, int height);
     void draw(Graphics2D graphics2D);
     void drawOutline(Graphics2D graphics2D);
     void move(int xOffset, int yOffset);

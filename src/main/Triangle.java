@@ -11,16 +11,16 @@ public class Triangle extends Shape{
         super(pressX, pressY, releaseX, releaseY);
         xpoints = new int[3];
         ypoints = new int[3];
-        setPoints();
+        setPoints(getWidth(), getHeight());
     }
 
-    private void setPoints(){
+    private void setPoints(int width, int height){
         xpoints[0] = getX();
-        ypoints[0] = getY() + getHeight();
-        xpoints[1] = getX() + getWidth()/2;
+        ypoints[0] = getY() + height;
+        xpoints[1] = getX() + width/2;
         ypoints[1] = getY();
-        xpoints[2] = getX() + getWidth();
-        ypoints[2] = getY() + getHeight();
+        xpoints[2] = getX() + width;
+        ypoints[2] = getY() + height;
     }
 
     @Override
@@ -34,10 +34,13 @@ public class Triangle extends Shape{
     @Override
     //Needed for the special point-array method of shape creation
     public void move(int xOffset, int yOffset) {
-        for (int i = 0; i<xpoints.length; i++){
-            xpoints[i] += xOffset;
-            ypoints[i] += yOffset;
-        }
+        super.move(xOffset, yOffset);
+        setPoints(getWidth(), getHeight());
+    }
+    @Override
+    public void changeDimensions(int width, int height){
+        super.changeDimensions(width, height);
+        setPoints(getWidth(), getHeight());
     }
     @Override
     public IShape clone(){

@@ -56,8 +56,9 @@ public class AbstractCanvas implements IAbstractCanvas {
             if(clipboard.getSelected().contains(shape)){
                 shape.move(xOffset, yOffset);
                 drawSelected(shape);
+            }else {
+                shape.draw(canvas.getGraphics2D());
             }
-            shape.draw(canvas.getGraphics2D());
         }
     }
 
@@ -79,13 +80,18 @@ public class AbstractCanvas implements IAbstractCanvas {
 
     public void deleteSelected(){
         canvas.paintImmediately(0, 0, canvas.getWidth(), canvas.getHeight());
+        Deque<IShape> toRemove = new ArrayDeque<>();
         for(IShape shape: shapes){
             if (clipboard.getSelected().contains(shape)){
-                shapes.remove(shape);
+                toRemove.addLast(shape);
             }else{
                 shape.draw(canvas.getGraphics2D());
             }
         }
+
+        //remove deleted shapes from shapes deque
+        for(IShape shape: toRemove){shapes.remove(shape);}
+
         clipboard.clearSelected();
     }
 

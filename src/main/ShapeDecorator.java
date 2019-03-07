@@ -19,5 +19,6 @@ public abstract class ShapeDecorator implements IShape{
     public void draw(Graphics2D graphics2D){decoratedShape.draw(graphics2D);}
     public void drawOutline(Graphics2D graphics2D){decoratedShape.draw(graphics2D);}
     public void move(int newX, int newY){decoratedShape.move(newX, newY);}
+    public void changeDimensions(int width, int height){decoratedShape.changeDimensions(width, height);};
     public IShape clone(){return decoratedShape.clone();}
 }

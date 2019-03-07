@@ -11,6 +11,10 @@ public class SelectedShape extends ShapeDecorator{
     public void draw(Graphics2D graphics2D){
         decoratedShape.draw(graphics2D);
         setSelectionStroke(graphics2D);
+
+        //TODO find a better way to do this
+        move(-4, -4);
+        changeDimensions(getWidth()+8, getHeight()+8);
         decoratedShape.drawOutline(graphics2D);
     }
 
