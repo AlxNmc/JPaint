@@ -1,20 +1,18 @@
 package main;
 
-import model.interfaces.IApplicationState;
 import view.interfaces.PaintCanvasBase;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
+//TODO Make a redraw class that other classes can use when making changes to the canvas
+
 public class AbstractCanvas implements IAbstractCanvas {
-    IApplicationState state;
-    PaintCanvasBase canvas;
-    IClipboard clipboard;
+    private PaintCanvasBase canvas;
+    private IClipboard clipboard;
+    private Deque<IShape> shapes;
 
-    Deque<IShape> shapes;
-
-    AbstractCanvas(IApplicationState state, PaintCanvasBase canvas, Clipboard clipboard){
+    AbstractCanvas(PaintCanvasBase canvas, IClipboard clipboard){
         this.clipboard = clipboard;
-        this.state = state;
         this.canvas = canvas;
         shapes = new ArrayDeque<>();
     }
@@ -27,15 +25,12 @@ public class AbstractCanvas implements IAbstractCanvas {
     public void selectShapes(int pressX, int pressY, int releaseX, int releaseY){
         IShape selection = new Rectangle(pressX, pressY, releaseX, releaseY);
         clipboard.clearSelected();
-        canvas.paintImmediately(0, 0, canvas.getWidth(), canvas.getHeight());
         for (IShape shape: shapes) {
             if(collision(shape, selection)){
                 clipboard.addSelected(shape);
-                drawSelected(shape);
-            }else{
-                shape.draw(canvas.getGraphics2D());
             }
         }
+        redraw();
     }
 
     //simple collision detection algorithm. Uses bounding boxes of both shapes for the calculation.
@@ -50,16 +45,12 @@ public class AbstractCanvas implements IAbstractCanvas {
         int xOffset = releaseX - pressX;
         int yOffset = releaseY - pressY;
 
-        canvas.paintImmediately(0, 0, canvas.getWidth(), canvas.getHeight());
-
         for(IShape shape: shapes){
             if(clipboard.getSelected().contains(shape)){
                 shape.move(xOffset, yOffset);
-                drawSelected(shape);
-            }else {
-                shape.draw(canvas.getGraphics2D());
             }
         }
+        redraw();
     }
 
     private void drawSelected(IShape shape){
@@ -72,35 +63,29 @@ public class AbstractCanvas implements IAbstractCanvas {
         for(IShape shape: clipboard.getCopied()){
             IShape newShape = shape.clone();
             newShape.move(10, 10);
-            drawSelected(newShape);
-            addShape(newShape);
+            shapes.add(newShape);
             clipboard.addSelected(newShape);
         }
+        redraw();
     }
 
     public void deleteSelected(){
+        for(IShape shape: clipboard.getSelected()){
+            shapes.remove(shape);
+        }
+        clipboard.clearSelected();
+        redraw();
+    }
+
+    private void redraw(){
         canvas.paintImmediately(0, 0, canvas.getWidth(), canvas.getHeight());
-        Deque<IShape> toRemove = new ArrayDeque<>();
         for(IShape shape: shapes){
-            if (clipboard.getSelected().contains(shape)){
-                toRemove.addLast(shape);
+            if(clipboard.getSelected().contains(shape)){
+                drawSelected(shape);
             }else{
                 shape.draw(canvas.getGraphics2D());
             }
         }
-
-        //remove deleted shapes from shapes deque
-        for(IShape shape: toRemove){shapes.remove(shape);}
-
-        clipboard.clearSelected();
     }
 
-}
-
-interface IAbstractCanvas {
-    void addShape(IShape shape);
-    void selectShapes(int pressX, int pressY, int releaseX, int releaseY);
-    void moveShapes(int pressX, int pressY, int releaseX, int releaseY);
-    void paste();
-    void deleteSelected();
 }

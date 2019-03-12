@@ -4,10 +4,10 @@ import model.ShapeType;
 import model.interfaces.IApplicationState;
 
 public class ShapeFactory implements  IShapeFactory {
-    IApplicationState state;
-    IAbstractCanvas abstractCanvas;
+    private IApplicationState state;
+    private IAbstractCanvas abstractCanvas;
 
-    ShapeFactory(IApplicationState applicationState, AbstractCanvas abstractCanvas){
+    ShapeFactory(IApplicationState applicationState, IAbstractCanvas abstractCanvas){
         state = applicationState;
         this.abstractCanvas = abstractCanvas;
     }
@@ -35,8 +35,4 @@ public class ShapeFactory implements  IShapeFactory {
         abstractCanvas.addShape(shape);
         return shape;
     }
-}
-
-interface IShapeFactory {
-   IShape createShape(int pressX, int pressY, int releaseX, int releaseY);
 }

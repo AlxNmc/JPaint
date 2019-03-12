@@ -39,8 +39,8 @@ public class Triangle extends Shape{
     }
     @Override
     public void changeDimensions(int width, int height){
+        setPoints(width, height);
         super.changeDimensions(width, height);
-        setPoints(getWidth(), getHeight());
     }
     @Override
     public IShape clone(){

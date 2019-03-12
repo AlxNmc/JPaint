@@ -20,7 +20,7 @@ public class Main {
         IUiModule uiModule = new Gui(guiWindow);
         ApplicationState appState = new ApplicationState(uiModule);
         Clipboard clipboard = new Clipboard();
-        AbstractCanvas abstractCanvas = new AbstractCanvas(appState, paintCanvas, clipboard);
+        AbstractCanvas abstractCanvas = new AbstractCanvas(paintCanvas, clipboard);
         IJPaintController controller = new JPaintController(uiModule, appState, clipboard, abstractCanvas);
         controller.setup();
 

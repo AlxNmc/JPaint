@@ -9,8 +9,8 @@ import java.awt.event.MouseEvent;
 public class MouseHandler extends MouseAdapter {
 
     private IShapeFactory shapeFactory;
-    IApplicationState state;
-    IAbstractCanvas abstractCanvas;
+    private IApplicationState state;
+    private IAbstractCanvas abstractCanvas;
     private int lastPressX;
     private int lastPressY;
 

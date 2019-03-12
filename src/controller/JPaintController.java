@@ -3,16 +3,16 @@ package controller;
 import model.interfaces.IApplicationState;
 import view.EventName;
 import view.interfaces.IUiModule;
-import main.Clipboard;
-import main.AbstractCanvas;
+import main.IClipboard;
+import main.IAbstractCanvas;
 
 public class JPaintController implements IJPaintController {
     private final IUiModule uiModule;
     private final IApplicationState applicationState;
-    private final Clipboard clipboard;
-    private final AbstractCanvas abstractCanvas;
+    private final IClipboard clipboard;
+    private final IAbstractCanvas abstractCanvas;
 
-    public JPaintController(IUiModule uiModule, IApplicationState applicationState, Clipboard clipboard, AbstractCanvas abstractCanvas) {
+    public JPaintController(IUiModule uiModule, IApplicationState applicationState, IClipboard clipboard, IAbstractCanvas abstractCanvas) {
         this.uiModule = uiModule;
         this.applicationState = applicationState;
         this.clipboard = clipboard;
