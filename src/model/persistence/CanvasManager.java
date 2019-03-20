@@ -11,7 +11,7 @@ public class CanvasManager {
     private static PaintCanvasBase canvas;
     private static Deque<IShape> shapes;
 
-    CanvasManager(PaintCanvasBase canvas){
+    public CanvasManager(PaintCanvasBase canvas){
         if (shapes==null){ shapes = new ArrayDeque<>(); }
         if(this.canvas == null){ this.canvas = canvas; }
     }
