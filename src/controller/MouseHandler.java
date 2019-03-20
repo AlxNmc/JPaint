@@ -1,5 +1,9 @@
-package main;
+package controller;
 
+import commands.CreateCommand;
+import commands.MoveCommand;
+import commands.SelectCommand;
+import shapes.ShapeFactory;
 import model.StartAndEndPointMode;
 import model.interfaces.IApplicationState;
 
@@ -8,16 +12,12 @@ import java.awt.event.MouseEvent;
 
 public class MouseHandler extends MouseAdapter {
 
-    private IShapeFactory shapeFactory;
     private IApplicationState state;
-    private IAbstractCanvas abstractCanvas;
     private int lastPressX;
     private int lastPressY;
 
-    public MouseHandler(ShapeFactory shapeFactory, IApplicationState state, AbstractCanvas abstractCanvas){
-        this.shapeFactory = shapeFactory;
+    public MouseHandler(IApplicationState state){
         this.state = state;
-        this.abstractCanvas = abstractCanvas;
         lastPressX = 0;
         lastPressY = 0;
     }
@@ -35,13 +35,14 @@ public class MouseHandler extends MouseAdapter {
         StartAndEndPointMode mode = state.getActiveStartAndEndPointMode();
         switch (mode){
             case DRAW:
-                shapeFactory.createShape(pressX, pressY, releaseX, releaseY);
+                new CreateCommand().run(ShapeFactory.createShape(state, pressX, releaseX, pressY, releaseY));
+                //shapeFactory.createShape(pressX, pressY, releaseX, releaseY);
                 break;
             case SELECT:
-                abstractCanvas.selectShapes(pressX, pressY, releaseX, releaseY);
+                new SelectCommand().run(pressX, pressY, releaseX, releaseY);
                 break;
             case MOVE:
-                abstractCanvas.moveShapes(pressX, pressY, releaseX, releaseY);
+                new MoveCommand().run(pressX, pressY, releaseX, releaseY);
                 break;
         }
     }

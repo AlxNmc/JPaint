@@ -1,22 +1,17 @@
 package controller;
 
+import commands.*;
 import model.interfaces.IApplicationState;
 import view.EventName;
 import view.interfaces.IUiModule;
-import main.IClipboard;
-import main.IAbstractCanvas;
 
 public class JPaintController implements IJPaintController {
     private final IUiModule uiModule;
     private final IApplicationState applicationState;
-    private final IClipboard clipboard;
-    private final IAbstractCanvas abstractCanvas;
 
-    public JPaintController(IUiModule uiModule, IApplicationState applicationState, IClipboard clipboard, IAbstractCanvas abstractCanvas) {
+    public JPaintController(IUiModule uiModule, IApplicationState applicationState) {
         this.uiModule = uiModule;
         this.applicationState = applicationState;
-        this.clipboard = clipboard;
-        this.abstractCanvas = abstractCanvas;
     }
 
     @Override
@@ -30,8 +25,12 @@ public class JPaintController implements IJPaintController {
         uiModule.addEvent(EventName.CHOOSE_SECONDARY_COLOR, () -> applicationState.setActiveSecondaryColor());
         uiModule.addEvent(EventName.CHOOSE_SHADING_TYPE, () -> applicationState.setActiveShadingType());
         uiModule.addEvent(EventName.CHOOSE_START_POINT_ENDPOINT_MODE, () -> applicationState.setActiveStartAndEndPointMode());
-        uiModule.addEvent(EventName.COPY, () -> clipboard.copy());
-        uiModule.addEvent(EventName.PASTE, () -> abstractCanvas.paste());
-        uiModule.addEvent(EventName.DELETE, () -> abstractCanvas.deleteSelected());
+        uiModule.addEvent(EventName.COPY, () -> new CopyCommand().run());
+        uiModule.addEvent(EventName.PASTE, () -> new PasteCommand().run());
+        uiModule.addEvent(EventName.DELETE, () -> new DeleteCommand().run());
+        uiModule.addEvent(EventName.GROUP, () -> new GroupCommand().run());
+        uiModule.addEvent(EventName.UNGROUP, () -> new UngroupCommand().run());
+        uiModule.addEvent(EventName.UNDO, () -> CommandHistory.undo());
+        uiModule.addEvent(EventName.REDO, () -> CommandHistory.redo());
     }
 }

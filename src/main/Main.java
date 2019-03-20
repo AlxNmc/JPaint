@@ -2,7 +2,9 @@ package main;
 
 import controller.IJPaintController;
 import controller.JPaintController;
+import controller.MouseHandler;
 import model.persistence.ApplicationState;
+import model.persistence.CanvasManager;
 import view.gui.Gui;
 import view.gui.GuiWindow;
 import view.gui.PaintCanvas;
@@ -19,13 +21,10 @@ public class Main {
         IGuiWindow guiWindow = new GuiWindow(paintCanvas);
         IUiModule uiModule = new Gui(guiWindow);
         ApplicationState appState = new ApplicationState(uiModule);
-        Clipboard clipboard = new Clipboard();
-        AbstractCanvas abstractCanvas = new AbstractCanvas(paintCanvas, clipboard);
-        IJPaintController controller = new JPaintController(uiModule, appState, clipboard, abstractCanvas);
+        new CanvasManager(paintCanvas);
+        IJPaintController controller = new JPaintController(uiModule, appState);
         controller.setup();
-
-        ShapeFactory shapeFactory = new ShapeFactory(appState, abstractCanvas);
-        MouseHandler mouseHandler = new MouseHandler(shapeFactory, appState, abstractCanvas);
+        MouseHandler mouseHandler = new MouseHandler(appState);
         paintCanvas.addMouseListener(mouseHandler);
     }
 }
